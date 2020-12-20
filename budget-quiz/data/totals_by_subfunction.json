@@ -1,0 +1,469 @@
+{
+  "data": [
+    {
+      "budget_function_code": "750",
+      "budget_function_title": "Administration of Justice",
+      "subfunctions": [
+        {
+          "budget_subfunction_code": "754",
+          "budget_subfunction_title": "Criminal justice assistance",
+          "total": 8961621898.8
+        },
+        {
+          "budget_subfunction_code": "753",
+          "budget_subfunction_title": "Federal correctional activities",
+          "total": 8438040827.45
+        },
+        {
+          "budget_subfunction_code": "751",
+          "budget_subfunction_title": "Federal law enforcement activities",
+          "total": 54364175392.55
+        },
+        {
+          "budget_subfunction_code": "752",
+          "budget_subfunction_title": "Federal litigative and judicial activities",
+          "total": 10458542927.32
+        }
+      ]
+    },
+    {
+      "budget_function_code": "350",
+      "budget_function_title": "Agriculture",
+      "subfunctions": [
+        {
+          "budget_subfunction_code": "352",
+          "budget_subfunction_title": "Agricultural research and services",
+          "total": 8086861970.4
+        },
+        {
+          "budget_subfunction_code": "351",
+          "budget_subfunction_title": "Farm income stabilization",
+          "total": 32574440071.28
+        }
+      ]
+    },
+    {
+      "budget_function_code": "370",
+      "budget_function_title": "Commerce and Housing Credit",
+      "subfunctions": [
+        {
+          "budget_subfunction_code": "373",
+          "budget_subfunction_title": "Deposit insurance",
+          "total": 2956965740.44
+        },
+        {
+          "budget_subfunction_code": "371",
+          "budget_subfunction_title": "Mortgage credit",
+          "total": 9783876738.49
+        },
+        {
+          "budget_subfunction_code": "376",
+          "budget_subfunction_title": "Other advancement of commerce",
+          "total": 39968346579.08
+        },
+        {
+          "budget_subfunction_code": "372",
+          "budget_subfunction_title": "Postal service",
+          "total": 0
+        }
+      ]
+    },
+    {
+      "budget_function_code": "450",
+      "budget_function_title": "Community and Regional Development",
+      "subfunctions": [
+        {
+          "budget_subfunction_code": "452",
+          "budget_subfunction_title": "Area and regional development",
+          "total": 28155904407.41
+        },
+        {
+          "budget_subfunction_code": "451",
+          "budget_subfunction_title": "Community development",
+          "total": 7040771671.8
+        },
+        {
+          "budget_subfunction_code": "453",
+          "budget_subfunction_title": "Disaster relief and insurance",
+          "total": 26072833464.35
+        }
+      ]
+    },
+    {
+      "budget_function_code": "500",
+      "budget_function_title": "Education, Training, Employment, and Social Services",
+      "subfunctions": [
+        {
+          "budget_subfunction_code": "501",
+          "budget_subfunction_title": "Elementary, secondary, and vocational education",
+          "total": 41994567491.58
+        },
+        {
+          "budget_subfunction_code": "502",
+          "budget_subfunction_title": "Higher education",
+          "total": 77425905666.88
+        },
+        {
+          "budget_subfunction_code": "505",
+          "budget_subfunction_title": "Other labor services",
+          "total": 2526161798.15
+        },
+        {
+          "budget_subfunction_code": "503",
+          "budget_subfunction_title": "Research and general education aids",
+          "total": 2098405043.08
+        },
+        {
+          "budget_subfunction_code": "506",
+          "budget_subfunction_title": "Social services",
+          "total": 21960671110.85
+        },
+        {
+          "budget_subfunction_code": "504",
+          "budget_subfunction_title": "Training and employment",
+          "total": 9849144725.22
+        }
+      ]
+    },
+    {
+      "budget_function_code": "270",
+      "budget_function_title": "Energy",
+      "subfunctions": [
+        {
+          "budget_subfunction_code": "274",
+          "budget_subfunction_title": "Emergency energy preparedness",
+          "total": 566606022.37
+        },
+        {
+          "budget_subfunction_code": "272",
+          "budget_subfunction_title": "Energy conservation",
+          "total": 2465196638.84
+        },
+        {
+          "budget_subfunction_code": "276",
+          "budget_subfunction_title": "Energy information, policy, and regulation",
+          "total": 1969440482.87
+        },
+        {
+          "budget_subfunction_code": "271",
+          "budget_subfunction_title": "Energy supply",
+          "total": 19270941444.43
+        }
+      ]
+    },
+    {
+      "budget_function_code": "800",
+      "budget_function_title": "General Government",
+      "subfunctions": [
+        {
+          "budget_subfunction_code": "803",
+          "budget_subfunction_title": "Central fiscal operations",
+          "total": 314465611055.48
+        },
+        {
+          "budget_subfunction_code": "805",
+          "budget_subfunction_title": "Central personnel management",
+          "total": 46081751534.54
+        },
+        {
+          "budget_subfunction_code": "802",
+          "budget_subfunction_title": "Executive direction and management",
+          "total": 510055150.97
+        },
+        {
+          "budget_subfunction_code": "804",
+          "budget_subfunction_title": "General property and records management",
+          "total": 31697858482.39
+        },
+        {
+          "budget_subfunction_code": "806",
+          "budget_subfunction_title": "General purpose fiscal assistance",
+          "total": 7842719117.98
+        },
+        {
+          "budget_subfunction_code": "801",
+          "budget_subfunction_title": "Legislative functions",
+          "total": 642292633.49
+        },
+        {
+          "budget_subfunction_code": "808",
+          "budget_subfunction_title": "Other general government",
+          "total": 2366774442.96
+        }
+      ]
+    },
+    {
+      "budget_function_code": "250",
+      "budget_function_title": "General Science, Space, and Technology",
+      "subfunctions": [
+        {
+          "budget_subfunction_code": "251",
+          "budget_subfunction_title": "General science and basic research",
+          "total": 15790985165.17
+        },
+        {
+          "budget_subfunction_code": "252",
+          "budget_subfunction_title": "Space flight, research, and supporting activities",
+          "total": 23240773910.25
+        }
+      ]
+    },
+    {
+      "budget_function_code": "000",
+      "budget_function_title": "Governmental Receipts",
+      "subfunctions": [
+        {
+          "budget_subfunction_code": "000",
+          "budget_subfunction_title": "Governmental Receipts",
+          "total": 0
+        }
+      ]
+    },
+    {
+      "budget_function_code": "550",
+      "budget_function_title": "Health",
+      "subfunctions": [
+        {
+          "budget_subfunction_code": "554",
+          "budget_subfunction_title": "Consumer and occupational health and safety",
+          "total": 8758957587.99
+        },
+        {
+          "budget_subfunction_code": "551",
+          "budget_subfunction_title": "Health care services",
+          "total": 673819084513.36
+        },
+        {
+          "budget_subfunction_code": "552",
+          "budget_subfunction_title": "Health research and training",
+          "total": 47091409675.31
+        }
+      ]
+    },
+    {
+      "budget_function_code": "600",
+      "budget_function_title": "Income Security",
+      "subfunctions": [
+        {
+          "budget_subfunction_code": "602",
+          "budget_subfunction_title": "Federal employee retirement and disability",
+          "total": 157498378741.77
+        },
+        {
+          "budget_subfunction_code": "605",
+          "budget_subfunction_title": "Food and nutrition assistance",
+          "total": 95708317955.08
+        },
+        {
+          "budget_subfunction_code": "601",
+          "budget_subfunction_title": "General retirement and disability insurance (excluding social se",
+          "total": 24502626145.78
+        },
+        {
+          "budget_subfunction_code": "604",
+          "budget_subfunction_title": "Housing assistance",
+          "total": 64522778148.74
+        },
+        {
+          "budget_subfunction_code": "609",
+          "budget_subfunction_title": "Other income security",
+          "total": 197216245448.99
+        },
+        {
+          "budget_subfunction_code": "603",
+          "budget_subfunction_title": "Unemployment compensation",
+          "total": 31039205247.32
+        }
+      ]
+    },
+    {
+      "budget_function_code": "150",
+      "budget_function_title": "International Affairs",
+      "subfunctions": [
+        {
+          "budget_subfunction_code": "153",
+          "budget_subfunction_title": "Conduct of foreign affairs",
+          "total": 26387003584.22
+        },
+        {
+          "budget_subfunction_code": "154",
+          "budget_subfunction_title": "Foreign information and exchange activities",
+          "total": 1785176693.89
+        },
+        {
+          "budget_subfunction_code": "151",
+          "budget_subfunction_title": "International development and humanitarian assistance",
+          "total": 31050759465.9
+        },
+        {
+          "budget_subfunction_code": "155",
+          "budget_subfunction_title": "International financial programs",
+          "total": 56541414457.43
+        },
+        {
+          "budget_subfunction_code": "152",
+          "budget_subfunction_title": "International security assistance",
+          "total": 13684552032.59
+        }
+      ]
+    },
+    {
+      "budget_function_code": "570",
+      "budget_function_title": "Medicare",
+      "subfunctions": [
+        {
+          "budget_subfunction_code": "571",
+          "budget_subfunction_title": "Medicare",
+          "total": 1166775735189.8
+        }
+      ]
+    },
+    {
+      "budget_function_code": "990",
+      "budget_function_title": "Multiple functions",
+      "subfunctions": [
+        {
+          "budget_subfunction_code": "999",
+          "budget_subfunction_title": "Multiple functions",
+          "total": 0
+        }
+      ]
+    },
+    {
+      "budget_function_code": "050",
+      "budget_function_title": "National Defense",
+      "subfunctions": [
+        {
+          "budget_subfunction_code": "053",
+          "budget_subfunction_title": "Atomic energy defense activities",
+          "total": 28918887002.01
+        },
+        {
+          "budget_subfunction_code": "054",
+          "budget_subfunction_title": "Defense-related activities",
+          "total": 105684515844.01
+        },
+        {
+          "budget_subfunction_code": "051",
+          "budget_subfunction_title": "Department of Defense-Military",
+          "total": 925958376559.4
+        }
+      ]
+    },
+    {
+      "budget_function_code": "300",
+      "budget_function_title": "Natural Resources and Environment",
+      "subfunctions": [
+        {
+          "budget_subfunction_code": "302",
+          "budget_subfunction_title": "Conservation and land management",
+          "total": 17602966656.53
+        },
+        {
+          "budget_subfunction_code": "306",
+          "budget_subfunction_title": "Other natural resources",
+          "total": 10745186156.32
+        },
+        {
+          "budget_subfunction_code": "304",
+          "budget_subfunction_title": "Pollution control and abatement",
+          "total": 11434465802.08
+        },
+        {
+          "budget_subfunction_code": "303",
+          "budget_subfunction_title": "Recreational resources",
+          "total": 5266746223.81
+        },
+        {
+          "budget_subfunction_code": "301",
+          "budget_subfunction_title": "Water resources",
+          "total": 27843147119.01
+        }
+      ]
+    },
+    {
+      "budget_function_code": "900",
+      "budget_function_title": "Net Interest",
+      "subfunctions": [
+        {
+          "budget_subfunction_code": "901",
+          "budget_subfunction_title": "Interest on Treasury debt securities (gross)",
+          "total": 572913097834.96
+        },
+        {
+          "budget_subfunction_code": "908",
+          "budget_subfunction_title": "Other interest",
+          "total": 14202805052.88
+        }
+      ]
+    },
+    {
+      "budget_function_code": "650",
+      "budget_function_title": "Social Security",
+      "subfunctions": [
+        {
+          "budget_subfunction_code": "651",
+          "budget_subfunction_title": "Social security",
+          "total": 1096537331891.13
+        }
+      ]
+    },
+    {
+      "budget_function_code": "400",
+      "budget_function_title": "Transportation",
+      "subfunctions": [
+        {
+          "budget_subfunction_code": "402",
+          "budget_subfunction_title": "Air transportation",
+          "total": 37628254759.32
+        },
+        {
+          "budget_subfunction_code": "401",
+          "budget_subfunction_title": "Ground transportation",
+          "total": 67823804691.95
+        },
+        {
+          "budget_subfunction_code": "407",
+          "budget_subfunction_title": "Other transportation",
+          "total": 1545757666.37
+        },
+        {
+          "budget_subfunction_code": "403",
+          "budget_subfunction_title": "Water transportation",
+          "total": 13365987417.21
+        }
+      ]
+    },
+    {
+      "budget_function_code": "700",
+      "budget_function_title": "Veterans Benefits and Services",
+      "subfunctions": [
+        {
+          "budget_subfunction_code": "703",
+          "budget_subfunction_title": "Hospital and medical care for veterans",
+          "total": 86195984163.96
+        },
+        {
+          "budget_subfunction_code": "701",
+          "budget_subfunction_title": "Income security for veterans",
+          "total": 103483757102.56
+        },
+        {
+          "budget_subfunction_code": "705",
+          "budget_subfunction_title": "Other veterans benefits and services",
+          "total": 13324616179.06
+        },
+        {
+          "budget_subfunction_code": "702",
+          "budget_subfunction_title": "Veterans education, training, and rehabilitation",
+          "total": 14177183740.25
+        },
+        {
+          "budget_subfunction_code": "704",
+          "budget_subfunction_title": "Veterans housing",
+          "total": 408825520.93
+        }
+      ]
+    }
+  ]
+}
