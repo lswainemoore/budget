@@ -1,4 +1,7 @@
 import React from 'react'
+import {SortableContainer, SortableElement} from 'react-sortable-hoc';
+import arrayMove from 'array-move';
+import clone from 'clone'
 
 class Quiz extends React.Component {
   constructor(props) {
@@ -6,7 +9,7 @@ class Quiz extends React.Component {
     this.budgetData = props.budgetData;
 
     this.numQuestions = 10;
-    this.numOptionsPerQuestion = 3;
+    this.numOptionsPerQuestion = 4;
 
     this.state = {
       started: false,
@@ -59,7 +62,7 @@ class Quiz extends React.Component {
   nextQuestion() {
     if (this.state.currentQuestionNum < this.numQuestions) {
       this.setState((prevState) => ({
-        currentQuestionNum: prevState.currentQuestionNum + 1
+        currentQuestionNum: prevState.currentQuestionNum + 1,
       }));
     } else {
       this.setState({finished: true})
@@ -81,7 +84,7 @@ class Quiz extends React.Component {
     // TODO:
     //  - don't pick from same budget function for a given question.
     //  - don't pick sums that are too close for a given question
-    //  - i actually kind of a different form of question: order these X budget items
+    //  - exclude "other" functions
 
     // full list of the options
     let allOptions = {};
@@ -90,7 +93,12 @@ class Quiz extends React.Component {
         if (sf.total === 0) {
           return;
         }
-        allOptions[`${f.budget_function_title} - ${sf.budget_subfunction_title}`] = this.prettifyMoney(sf.total);
+        allOptions[`${f.budget_function_title} - ${sf.budget_subfunction_title}`] = {
+          bfTitle: f.budget_function_title,
+          bsfTitle: sf.budget_subfunction_title,
+          total: sf.total,
+          prettyTotal: this.prettifyMoney(sf.total),
+        }
       })
     });
     let unusedOptions = Object.keys(allOptions);
@@ -103,22 +111,16 @@ class Quiz extends React.Component {
       let choices = [];
       for (const y of Array(this.numOptionsPerQuestion).keys()) {
         const chosenIndex = Math.floor(Math.random() * unusedOptions.length);
-        choices.push(unusedOptions[chosenIndex]);
+        choices.push(allOptions[unusedOptions[chosenIndex]]);
         // no longer unused!
         unusedOptions.splice(chosenIndex, 1);
       }
 
-      // choose answer
-      const correctChoice = choices[Math.floor(Math.random() * choices.length)];
-      const clue = allOptions[correctChoice];
-
-      questions.push({
-        choices: choices,
-        correctChoice: correctChoice,
-        clue: clue
-      });
+      questions.push(choices);
     }
-    this.setState({questions: questions});
+    this.setState({
+      questions: questions,
+    });
   }
 
   render() {
@@ -127,15 +129,18 @@ class Quiz extends React.Component {
       if (!this.state.finished) {
         interior = (
           <div>
-            {this.state.questions.map((q) =>
-              <Question
-                clue={q.clue}
-                choices={q.choices}
-                correctChoice={q.correctChoice}
-                onCorrect={() => this.onCorrect()}
-                onIncorrect={() => this.onIncorrect()}
-              />
-            )[this.state.currentQuestionNum - 1]}
+            {this.state.questions.map((q, i) =>
+              <div
+                key={i}
+                style={{display: this.state.currentQuestionNum === (i + 1) ? 'unset': 'none'}}
+              >
+                <Question
+                  choices={q}
+                  onCorrect={() => this.onCorrect()}
+                  onIncorrect={() => this.onIncorrect()}
+                />
+              </div>
+            )}
             <p>{this.state.currentQuestionNum} / {this.numQuestions}</p>
           </div>
         );
@@ -160,40 +165,108 @@ class Quiz extends React.Component {
   }
 }
 
+
+const Option = SortableElement(({value}) => {
+  return (
+    <div
+      style={{
+        userSelect: 'none',
+        border: '1px solid gray',
+        borderRadius: '2px',
+        margin: '4px 0px',
+        padding: '5px',
+      }}
+    >
+      <div
+        style={{
+          fontSize: '12px',
+        }}
+      >
+        {value.bfTitle}
+      </div>
+      <div
+        style={{
+          fontSize: '20px',
+        }}
+      >
+        &#8627;{value.bsfTitle}
+      </div>
+
+    </div>
+  )
+});
+
+const OptionsList = SortableContainer(({items}) => {
+  return (
+    <div
+      style={{
+        listStyleType: 'none',
+        backgrondColor: 'gray'
+      }}
+    >
+      {items.map((value, index) => (
+        <Option key={`item-${value}`} index={index} value={value} />
+      ))}
+    </div>
+  );
+});
+
 class Question extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {}
+
+    let choices = clone(props.choices);
+    this.shuffle(choices);
+    this.state = {
+      choices: choices
+    };
   }
 
-  selectAnswer(choice) {
-    if (choice == this.props.correctChoice) {
-      this.props.onCorrect();
-    } else {
-      this.props.onIncorrect();
+  shuffle(arr) {
+    // shuffles arr in place.
+    // from: https://medium.com/@nitinpatel_20236/how-to-shuffle-correctly-shuffle-an-array-in-javascript-15ea3f84bfb
+    for(let i = arr.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * i)
+      const temp = arr[i]
+      arr[i] = arr[j]
+      arr[j] = temp
     }
   }
 
+  onSortEnd = ({oldIndex, newIndex}) => {
+    this.setState(({choices}) => ({
+      choices: arrayMove(choices, oldIndex, newIndex),
+    }));
+  }
+
+  // selectAnswer(choice) {
+  //   if (choice == this.props.correctChoice) {
+  //     this.props.onCorrect();
+  //   } else {
+  //     this.props.onIncorrect();
+  //   }
+  // }
+
   render() {
     return (
-      <div>
-        <p>
-          Which of the following costs {this.props.clue}?
-        </p>
-        <ul>
-          {this.props.choices.map(c => {
-            return (
-              <button
-                onClick={() => this.selectAnswer(c)}
-              >
-                {c}
-              </button>
-            )
-          })}
-        </ul>
-      </div>
+      <OptionsList items={this.state.choices} onSortEnd={this.onSortEnd} />
     )
   }
 }
 
 export default Quiz;
+
+
+// TODO
+// functionality
+// ~ change to being ordering instead of pick one
+// - submit answer
+// - immediate feedback on correctness
+// - make a visualization after you select answer (i'm thinking bars drop down from buttons)
+// - hints (e.g. 2B is X twinkies...oh you meant a helpful hint??)
+// - stats (e.g. you scored better than X% of users, and 80% of Representatives*  *probably)
+// - selection of questions to toss out really hard things
+// - difficulty level to affect ratios used for ^
+// styling
+// - buttons
+// - everything else
