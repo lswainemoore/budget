@@ -152,35 +152,64 @@ class Quiz extends React.Component {
 }
 
 
-const Option = SortableElement(({value}) => {
-  return (
-    <div
-      style={{
-        userSelect: 'none',
-        border: '1px solid gray',
-        borderRadius: '2px',
-        margin: '4px 0px',
-        padding: '5px',
-      }}
-    >
-      <div
-        style={{
-          fontSize: '12px',
-        }}
-      >
-        {value.bfTitle}
+class Option extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+        <div
+          style={{
+            userSelect: 'none',
+            border: '1px solid gray',
+            borderRadius: '2px',
+            margin: '4px 0px',
+            padding: '5px',
+            display: 'inline-block',
+            width: '300px',
+          }}
+        >
+          <div
+            style={{
+              fontSize: '12px',
+            }}
+          >
+            {this.props.bfTitle}
+          </div>
+          <div
+            style={{
+              fontSize: '20px',
+            }}
+          >
+            &#8627;{this.props.bsfTitle}
+          </div>
+        </div>
+        {this.props.postSubmit &&
+          <div
+            style={{display: 'inline-block'}}
+          >
+            {Array.from(Array(this.props.numDollarSigns)).map(() => {
+              return (
+                <span>&#128176;</span>
+              )
+            })}
+          </div>
+        }
+        {this.props.postSubmit &&
+          <div
+            style={{display: 'inline-block'}}
+          >
+            <p>{this.props.prettyTotal}</p>
+          </div>
+        }
       </div>
-      <div
-        style={{
-          fontSize: '20px',
-        }}
-      >
-        &#8627;{value.bsfTitle}
-      </div>
+    )
+  }
+}
 
-    </div>
-  )
-});
+
+const OptionWrapper = SortableElement(({value}) => value);
 
 const OptionsList = SortableContainer(({items}) => {
   return (
@@ -190,7 +219,7 @@ const OptionsList = SortableContainer(({items}) => {
       }}
     >
       {items.map((value, index) => (
-        <Option key={`item-${value}`} index={index} value={value} />
+        <OptionWrapper key={`item-${value}`} index={index} value={value} />
       ))}
     </div>
   );
@@ -202,6 +231,16 @@ class Question extends React.Component {
 
     let choices = clone(props.choices);
     this.shuffle(choices);
+
+    const maxDollarSigns = 20;
+    const totals = choices.map(c => c.total);
+    const maxTotal = Math.max(...totals);
+    choices.forEach(c => {
+      c.scaled = c.total / maxTotal;
+      // should have at least one dollar sign even if it screws up the scale.
+      c.numDollarSigns = Math.max(Math.round(maxDollarSigns * c.scaled), 1);
+    })
+
     this.state = {
       choices: choices,
       submitted: false,
@@ -257,9 +296,22 @@ class Question extends React.Component {
 
   render() {
 
+    const options = this.state.choices.map(o => {
+      return (
+        <Option
+          bsfTitle={o.bsfTitle}
+          bfTitle={o.bfTitle}
+          numDollarSigns={o.numDollarSigns}
+          prettyTotal={o.prettyTotal}
+          total={o.total}
+          postSubmit={this.state.submitted}
+        />
+      )
+    })
+
     return (
       <div>
-        <OptionsList items={this.state.choices} onSortEnd={this.onSortEnd} />
+        <OptionsList items={options} onSortEnd={this.onSortEnd} />
         {!this.state.submitted &&
           <button
             onClick={this.submit}
