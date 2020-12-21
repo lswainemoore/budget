@@ -155,7 +155,31 @@ class Quiz extends React.Component {
 class Option extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      showingUpToXSigns: 0,
+    }
   }
+  componentDidUpdate(prevProps) {
+    if (this.props.postSubmit && !prevProps.postSubmit) {
+      this.timerID = setInterval(
+        () => this.tickDollarSigns(),
+        50
+      );
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.timerID) {
+      clearInterval(this.timerID);
+    }
+  }
+
+  tickDollarSigns() {
+    this.setState((prevState) => ({
+      showingUpToXSigns: prevState.showingUpToXSigns + 1,
+    }));
+  }
+
   render() {
     return (
       <div>
@@ -189,18 +213,19 @@ class Option extends React.Component {
           <div
             style={{display: 'inline-block'}}
           >
-            {Array.from(Array(this.props.numDollarSigns)).map(() => {
+            {Array.from(Array(Math.min(this.props.numDollarSigns, this.state.showingUpToXSigns))).map(() => {
               return (
                 <span>&#128176;</span>
               )
             })}
           </div>
         }
+
         {this.props.postSubmit &&
           <div
             style={{display: 'inline-block'}}
           >
-            <p>{this.props.prettyTotal}</p>
+            <p>({this.props.prettyTotal})</p>
           </div>
         }
       </div>
