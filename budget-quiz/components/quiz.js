@@ -10,13 +10,24 @@ class Quiz extends React.Component {
 
     this.state = {
       started: false,
+      finished: false,
       questions: null,
+      currentQuestionNum: null,
+      correctTotal: null,
     };
+
+    // this.nextQuestion.bind(this);
+    // this.onCorrect.bind(this);
+    // this.onIncorrect.bind(this);
   }
 
   start() {
     this.constructQuestions();
-    this.setState({started: true});
+    this.setState({
+      started: true,
+      currentQuestionNum: 1,
+      correctTotal: 0,
+    });
   }
 
   prettifyMoney(amount) {
@@ -43,6 +54,27 @@ class Quiz extends React.Component {
     }
     const divAmount = Math.round(amount / Math.pow(10, correctOrder));
     return `$${divAmount}${suffix}`;
+  }
+
+  nextQuestion() {
+    if (this.state.currentQuestionNum < this.numQuestions) {
+      this.setState((prevState) => ({
+        currentQuestionNum: prevState.currentQuestionNum + 1
+      }));
+    } else {
+      this.setState({finished: true})
+    }
+  }
+
+  onCorrect() {
+    this.setState((prevState) => ({
+      correctTotal: prevState.correctTotal + 1
+    }));
+    this.nextQuestion();
+  }
+
+  onIncorrect() {
+    this.nextQuestion();
   }
 
   constructQuestions() {
@@ -86,23 +118,33 @@ class Quiz extends React.Component {
         clue: clue
       });
     }
-    console.log(questions);
     this.setState({questions: questions});
   }
 
   render() {
     let interior;
     if (this.state.started) {
-      interior = (
-        <div>
-          <p>we started</p>
-          {this.state.questions.map((q) => {
-            return (
-              <Question clue={q.clue} choices={q.choices} correctChoice={q.correctChoice}/>
-            )
-          })}
-        </div>
-      );
+      if (!this.state.finished) {
+        interior = (
+          <div>
+            {this.state.questions.map((q) =>
+              <Question
+                clue={q.clue}
+                choices={q.choices}
+                correctChoice={q.correctChoice}
+                onCorrect={() => this.onCorrect()}
+                onIncorrect={() => this.onIncorrect()}
+              />
+            )[this.state.currentQuestionNum - 1]}
+            <p>{this.state.currentQuestionNum} / {this.numQuestions}</p>
+          </div>
+        );
+      }
+      else {
+        interior = (
+          <p>you scored {this.state.correctTotal} out of {this.numQuestions}</p>
+        )
+      }
     } else {
       interior = (
         <a href="#" onClick={() => this.start()}>
@@ -121,21 +163,31 @@ class Quiz extends React.Component {
 class Question extends React.Component {
   constructor(props) {
     super(props);
-    this.clue = this.props.clue;
-    this.choices = this.props.choices;
-    this.correctChoice = this.props.correctChoice;
+    this.state = {}
+  }
+
+  selectAnswer(choice) {
+    if (choice == this.props.correctChoice) {
+      this.props.onCorrect();
+    } else {
+      this.props.onIncorrect();
+    }
   }
 
   render() {
     return (
       <div>
         <p>
-          Which of the following costs {this.clue}?
+          Which of the following costs {this.props.clue}?
         </p>
         <ul>
-          {this.choices.map(c => {
+          {this.props.choices.map(c => {
             return (
-              <li>{c}</li>
+              <button
+                onClick={() => this.selectAnswer(c)}
+              >
+                {c}
+              </button>
             )
           })}
         </ul>
