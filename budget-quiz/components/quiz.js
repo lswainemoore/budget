@@ -9,7 +9,7 @@ class Quiz extends React.Component {
     this.budgetData = props.budgetData;
 
     this.numQuestions = 10;
-    this.numOptionsPerQuestion = 4;
+    this.numOptionsPerQuestion = 2;
 
     this.state = {
       started: false,
@@ -59,25 +59,12 @@ class Quiz extends React.Component {
     return `$${divAmount}${suffix}`;
   }
 
-  nextQuestion() {
-    if (this.state.currentQuestionNum < this.numQuestions) {
-      this.setState((prevState) => ({
-        currentQuestionNum: prevState.currentQuestionNum + 1,
-      }));
-    } else {
-      this.setState({finished: true})
-    }
-  }
-
-  onCorrect() {
+  nextQuestion(correct) {
     this.setState((prevState) => ({
-      correctTotal: prevState.correctTotal + 1
+      currentQuestionNum: prevState.currentQuestionNum + 1,
+      correctTotal: prevState.correctTotal + correct,
+      finished: this.state.currentQuestionNum >= this.numQuestions
     }));
-    this.nextQuestion();
-  }
-
-  onIncorrect() {
-    this.nextQuestion();
   }
 
   constructQuestions() {
@@ -136,8 +123,7 @@ class Quiz extends React.Component {
               >
                 <Question
                   choices={q}
-                  onCorrect={() => this.onCorrect()}
-                  onIncorrect={() => this.onIncorrect()}
+                  nextQuestion={(correct) => this.nextQuestion(correct)}
                 />
               </div>
             )}
@@ -201,7 +187,6 @@ const OptionsList = SortableContainer(({items}) => {
     <div
       style={{
         listStyleType: 'none',
-        backgrondColor: 'gray'
       }}
     >
       {items.map((value, index) => (
@@ -218,7 +203,9 @@ class Question extends React.Component {
     let choices = clone(props.choices);
     this.shuffle(choices);
     this.state = {
-      choices: choices
+      choices: choices,
+      submitted: false,
+      correct: null,
     };
   }
 
@@ -239,6 +226,27 @@ class Question extends React.Component {
     }));
   }
 
+  submit = () => {
+    let correct = true;
+    let last = 0;
+    // is this safe to do here? or does it need to be in setState?
+    for (let c of this.state.choices) {
+      if (c.total < last) {
+        correct = false;
+        break;
+      }
+      last = c.total;
+    }
+    this.setState({
+      correct: correct,
+      submitted: true,
+    });
+  }
+
+  next = () => {
+    this.props.nextQuestion(this.state.correct);
+  }
+
   // selectAnswer(choice) {
   //   if (choice == this.props.correctChoice) {
   //     this.props.onCorrect();
@@ -248,8 +256,28 @@ class Question extends React.Component {
   // }
 
   render() {
+
     return (
-      <OptionsList items={this.state.choices} onSortEnd={this.onSortEnd} />
+      <div>
+        <OptionsList items={this.state.choices} onSortEnd={this.onSortEnd} />
+        {!this.state.submitted &&
+          <button
+            onClick={this.submit}
+          >
+            submit
+          </button>
+        }
+        {this.state.submitted &&
+          <div>
+            <div>{ this.state.correct ? 'Right!' : 'Wrong!' }</div>
+            <button
+              onClick={this.next}
+            >
+              Next
+            </button>
+          </div>
+        }
+      </div>
     )
   }
 }
