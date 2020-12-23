@@ -118,7 +118,7 @@ class Quiz extends React.Component {
           <div>
             {this.state.questions.map((q, i) =>
               <div
-                key={i}
+                key={`{question-${i}}`}
                 style={{display: this.state.currentQuestionNum === (i + 1) ? 'unset': 'none'}}
               >
                 <Question
@@ -155,29 +155,6 @@ class Quiz extends React.Component {
 class Option extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      showingUpToXSigns: 0,
-    }
-  }
-  componentDidUpdate(prevProps) {
-    if (this.props.postSubmit && !prevProps.postSubmit) {
-      this.timerID = setInterval(
-        () => this.tickDollarSigns(),
-        50
-      );
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.timerID) {
-      clearInterval(this.timerID);
-    }
-  }
-
-  tickDollarSigns() {
-    this.setState((prevState) => ({
-      showingUpToXSigns: prevState.showingUpToXSigns + 1,
-    }));
   }
 
   render() {
@@ -213,15 +190,14 @@ class Option extends React.Component {
           <div
             style={{display: 'inline-block'}}
           >
-            {Array.from(Array(Math.min(this.props.numDollarSigns, this.state.showingUpToXSigns))).map(() => {
+            {Array.from(Array(Math.min(this.props.numDollarSigns, this.props.showingUpToXSigns))).map((j, index) => {
               return (
-                <span>&#128176;</span>
+                <span key={`moneybag-${index}`}>&#128176;</span>
               )
             })}
           </div>
         }
-
-        {this.props.postSubmit &&
+        {this.props.postSubmit && this.props.doneWithAnimation &&
           <div
             style={{display: 'inline-block'}}
           >
@@ -243,9 +219,12 @@ const OptionsList = SortableContainer(({items}) => {
         listStyleType: 'none',
       }}
     >
-      {items.map((value, index) => (
-        <OptionWrapper key={`item-${value}`} index={index} value={value} />
-      ))}
+      {items.map((value, index) => {
+        let [optionId, option] = value;
+        return (
+          <OptionWrapper key={`item-${optionId}`} index={index} value={option} />
+        )
+      })}
     </div>
   );
 });
@@ -257,19 +236,22 @@ class Question extends React.Component {
     let choices = clone(props.choices);
     this.shuffle(choices);
 
-    const maxDollarSigns = 20;
+    this.maxDollarSigns = 20;
     const totals = choices.map(c => c.total);
     const maxTotal = Math.max(...totals);
-    choices.forEach(c => {
+    choices.forEach((c, i) => {
       c.scaled = c.total / maxTotal;
       // should have at least one dollar sign even if it screws up the scale.
-      c.numDollarSigns = Math.max(Math.round(maxDollarSigns * c.scaled), 1);
+      c.numDollarSigns = Math.max(Math.round(this.maxDollarSigns * c.scaled), 1);
+      c.optionIndex = i;
     })
 
     this.state = {
       choices: choices,
       submitted: false,
       correct: null,
+      showingUpToXSigns: 0,
+      doneWithAnimation: false,
     };
   }
 
@@ -301,36 +283,54 @@ class Question extends React.Component {
       }
       last = c.total;
     }
+
+    this.timerID = setInterval(
+      () => this.tickDollarSigns(),
+      30
+    );
+
     this.setState({
       correct: correct,
       submitted: true,
     });
   }
 
+  componentWillUnmount() {
+    if (this.timerID) {
+      clearInterval(this.timerID);
+    }
+  }
+
+  tickDollarSigns() {
+    if (this.state.showingUpToXSigns > this.maxDollarSigns) {
+      clearInterval(this.timerID);
+      this.setState({doneWithAnimation: true});
+      return;
+    }
+    this.setState((prevState) => ({
+      showingUpToXSigns: prevState.showingUpToXSigns + 1,
+    }));
+  }
+
   next = () => {
     this.props.nextQuestion(this.state.correct);
   }
-
-  // selectAnswer(choice) {
-  //   if (choice == this.props.correctChoice) {
-  //     this.props.onCorrect();
-  //   } else {
-  //     this.props.onIncorrect();
-  //   }
-  // }
 
   render() {
 
     const options = this.state.choices.map(o => {
       return (
-        <Option
+        [o.optionIndex, <Option
+          optionIndex={o.optionIndex}
           bsfTitle={o.bsfTitle}
           bfTitle={o.bfTitle}
           numDollarSigns={o.numDollarSigns}
           prettyTotal={o.prettyTotal}
           total={o.total}
           postSubmit={this.state.submitted}
-        />
+          showingUpToXSigns={this.state.showingUpToXSigns}
+          doneWithAnimation={this.state.doneWithAnimation}
+        />]
       )
     })
 
@@ -344,7 +344,7 @@ class Question extends React.Component {
             submit
           </button>
         }
-        {this.state.submitted &&
+        {this.state.submitted && this.state.doneWithAnimation &&
           <div>
             <div>{ this.state.correct ? 'Right!' : 'Wrong!' }</div>
             <button
@@ -364,10 +364,8 @@ export default Quiz;
 
 // TODO
 // functionality
-// ~ change to being ordering instead of pick one
-// - submit answer
-// - immediate feedback on correctness
-// - make a visualization after you select answer (i'm thinking bars drop down from buttons)
+// ~ make a visualization after you select answer (i'm thinking bars drop down from buttons)
+// - finished state
 // - hints (e.g. 2B is X twinkies...oh you meant a helpful hint??)
 // - stats (e.g. you scored better than X% of users, and 80% of Representatives*  *probably)
 // - selection of questions to toss out really hard things
