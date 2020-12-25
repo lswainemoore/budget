@@ -9,7 +9,7 @@ class Quiz extends React.Component {
     this.budgetData = props.budgetData;
 
     this.numQuestions = 10;
-    this.numOptionsPerQuestion = 2;
+    this.numOptionsPerQuestion = 5;
 
     this.state = {
       started: false,
@@ -138,13 +138,21 @@ class Quiz extends React.Component {
       }
     } else {
       interior = (
-        <a href="#" onClick={() => this.start()}>
-          start!
+        <a
+          onClick={() => this.start()}
+          href="#"
+        >
+          $tart!
         </a>
       );
     }
     return (
-      <div>
+      <div
+        style={{
+          width: '100%',
+          maxWidth: '750px',
+        }}
+      >
         {interior}
       </div>
     )
@@ -192,7 +200,15 @@ class Option extends React.Component {
           >
             {Array.from(Array(Math.min(this.props.numDollarSigns, this.props.showingUpToXSigns))).map((j, index) => {
               return (
-                <span key={`moneybag-${index}`}>&#128176;</span>
+                <span
+                  key={`moneybag-${index}`}
+                  style={{
+                    padding: '2px',
+                    fontSize: '16px',
+                  }}
+                >
+                  $
+                </span>
               )
             })}
           </div>
@@ -337,23 +353,47 @@ class Question extends React.Component {
     return (
       <div>
         <OptionsList items={options} onSortEnd={this.onSortEnd} />
-        {!this.state.submitted &&
-          <button
-            onClick={this.submit}
-          >
-            submit
-          </button>
-        }
-        {this.state.submitted && this.state.doneWithAnimation &&
-          <div>
-            <div>{ this.state.correct ? 'Right!' : 'Wrong!' }</div>
-            <button
-              onClick={this.next}
+        <div
+          style={{
+            width: '300px',
+            textAlign: 'center',
+            padding: '20px 0px',
+          }}
+        >
+          {!this.state.submitted &&
+            <div>
+              <a
+                onClick={this.submit}
+                href="#"
+                style={{
+                  fontSize: '16px',
+                }}
+              >
+                Submit
+              </a>
+            </div>
+          }
+          {this.state.submitted && this.state.doneWithAnimation &&
+            <div
+              style={{
+                width: '300px',
+                textAlign: 'center',
+                padding: '20px 0px',
+              }}
             >
-              Next
-            </button>
-          </div>
-        }
+              <div>{ this.state.correct ? 'Right!' : 'Wrong!' }</div>
+              <a
+                href="#"
+
+                onClick={this.next}
+              >
+                Next>>
+              </a>
+
+            </div>
+          }
+        </div>
+
       </div>
     )
   }
