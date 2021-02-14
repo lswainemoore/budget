@@ -1,7 +1,10 @@
 import React from 'react'
-import {SortableContainer, SortableElement} from 'react-sortable-hoc';
-import arrayMove from 'array-move';
-import clone from 'clone'
+import {SortableContainer, SortableElement} from 'react-sortable-hoc'
+import arrayMove from 'array-move'
+import clone from 'clone';
+
+import styles from '../styles/Quiz.module.scss'
+
 
 class Quiz extends React.Component {
   constructor(props) {
@@ -169,17 +172,10 @@ class Option extends React.Component {
     return (
       <div>
         <div
-          style={{
-            userSelect: 'none',
-            border: '1px solid gray',
-            borderRadius: '2px',
-            margin: '4px 0px',
-            padding: '5px',
-            display: 'inline-block',
-            width: '300px',
-          }}
+          className={styles.optionsBox}
         >
           <div
+            className={styles.ellipsize}
             style={{
               fontSize: '12px',
             }}
@@ -187,6 +183,7 @@ class Option extends React.Component {
             {this.props.bfTitle}
           </div>
           <div
+            className={styles.ellipsize}
             style={{
               fontSize: '20px',
             }}
