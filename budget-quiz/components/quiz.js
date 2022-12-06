@@ -118,7 +118,11 @@ class Quiz extends React.Component {
     if (this.state.started) {
       if (!this.state.finished) {
         interior = (
-          <div>
+          <div
+            style={{
+              textAlign: 'center',
+            }}
+          >
             {this.state.questions.map((q, i) =>
               <div
                 key={`{question-${i}}`}
@@ -153,7 +157,7 @@ class Quiz extends React.Component {
       <div
         style={{
           width: '100%',
-          maxWidth: '750px',
+          maxWidth: '800px',
         }}
       >
         {interior}
@@ -297,9 +301,12 @@ class Question extends React.Component {
       last = c.total;
     }
 
-    this.timerID = setInterval(
-      () => this.tickDollarSigns(),
-      30
+    setTimeout(
+      () => this.timerID = setInterval(
+        () => this.tickDollarSigns(),
+        30
+      ),
+      2000,
     );
 
     this.setState({
@@ -349,12 +356,17 @@ class Question extends React.Component {
 
     return (
       <div>
-        <OptionsList items={options} onSortEnd={this.onSortEnd} />
+        <div
+          className={styles.options + (this.state.submitted ? ' ' + styles.post : '')}
+        >
+          <OptionsList items={options} onSortEnd={this.onSortEnd} />
+        </div>
         <div
           style={{
             width: '300px',
             textAlign: 'center',
             padding: '20px 0px',
+            margin: '0 auto',
           }}
         >
           {!this.state.submitted &&
@@ -376,6 +388,7 @@ class Question extends React.Component {
                 width: '300px',
                 textAlign: 'center',
                 padding: '20px 0px',
+                margin: '0 auto',
               }}
             >
               <div>{ this.state.correct ? 'Right!' : 'Wrong!' }</div>
@@ -390,7 +403,6 @@ class Question extends React.Component {
             </div>
           }
         </div>
-
       </div>
     )
   }

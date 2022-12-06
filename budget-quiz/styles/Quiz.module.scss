@@ -1,22 +1,35 @@
-.optionsBox {
-  user-select: none;
-  border: 1px solid gray;
-  border-radius: 2px;
-  margin: 4px 0px;
-  padding: 5px;
-  display: inline-block;
-  width: 375px;
-  /*height: 50px;*/
 
-  // &:not(:hover) {
-  .ellipsize {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+
+.options {
+  text-align: left;
+  transform: translate(25%);
+
+  transition: transform 2s cubic-bezier(.7,1,1,1.56);
+  &.post {
+    transform: translate(0%);
+    .optionsBox {
+      animation-name: smush;
+      animation-timing-function: linear;
+    }
   }
-  // }
 
+  .optionsBox {
+    user-select: none;
+    border: 1px solid gray;
+    border-radius: 2px;
+    margin: 4px 0px;
+    padding: 5px;
+    display: inline-block;
+    width: 375px;
+    text-align: left;
+    /*height: 50px;*/
 
+    // &:not(:hover) {
+    .ellipsize {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    // }
+  }
 }
-
-
