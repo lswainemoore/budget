@@ -1,6 +1,5 @@
 import React from 'react'
 import {SortableContainer, SortableElement} from 'react-sortable-hoc'
-import arrayMove from 'array-move'
 import clone from 'clone';
 
 import styles from '../styles/Quiz.module.scss'
@@ -284,9 +283,12 @@ class Question extends React.Component {
   }
 
   onSortEnd = ({oldIndex, newIndex}) => {
-    this.setState(({choices}) => ({
-      choices: arrayMove(choices, oldIndex, newIndex),
-    }));
+    this.setState(({choices}) => {
+      const newChoices = [...choices]
+      // see https://stackoverflow.com/questions/5306680/move-an-array-element-from-one-array-position-to-another
+      newChoices.splice(newIndex, 0, newChoices.splice(oldIndex, 1)[0])
+      return {choices: newChoices}
+    });
   }
 
   submit = () => {
@@ -397,7 +399,7 @@ class Question extends React.Component {
 
                 onClick={this.next}
               >
-                Next>>
+                Next&gt;&gt;
               </a>
 
             </div>
